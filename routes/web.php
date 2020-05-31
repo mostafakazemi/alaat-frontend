@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/blocks-api', function () {
+    return \App\Block::paginate(5);
+});
+
+Route::get('/items-api', function () {
+    return \App\Block::whereId(25)->with(['items'])->paginate(5);
+});
