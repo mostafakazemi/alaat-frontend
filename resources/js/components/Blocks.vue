@@ -1,8 +1,17 @@
 <template>
     <div>
-        <div v-for="block in blocks">
-            {{ block.name }}
+        <vue-topprogress ref="topProgress"/>
+
+        <div class="text-center fixed-top bg-light py-2">
+            <b-badge variant="primary">{{ blocks.length }}</b-badge>
+            تعداد بلاک‌ها
         </div>
+
+        <div class="mx-auto my-5 py-5 col-12 border" v-for="(block, index) in blocks">
+            <block :key="index" :block-id="block.id"/>
+        </div>
+
+        <infinite-loading @infinite="infiniteHandler"></infinite-loading>
     </div>
 </template>
 
@@ -11,13 +20,29 @@
         name: "Blocks",
         data() {
             return {
-                blocks: []
+                blockId: parseInt(this.$route.params.blockId),
+                blocks: [],
+                page: 1,
             }
         },
-        mounted() {
-            this.axios.get('blocks-api').then((response) => {
-                this.blocks = response.data.data;
-            })
+        methods: {
+            infiniteHandler($state) {
+                this.$refs.topProgress.start()
+                axios.get('blocks-api', {
+                    params: {
+                        page: this.page,
+                    },
+                }).then(({data}) => {
+                    if (data.data.length) {
+                        this.page += 1;
+                        this.blocks.push(...data.data);
+                        $state.loaded();
+                    } else {
+                        $state.complete();
+                    }
+                    this.$refs.topProgress.done()
+                });
+            },
         }
     }
 </script>
