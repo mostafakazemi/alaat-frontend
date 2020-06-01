@@ -1962,6 +1962,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Block",
   props: ['blockId'],
@@ -44383,7 +44384,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.max-min-width-300[data-v-06572eb2] {\n    min-width: 300px;\n    max-width: 300px;\n}\n.full-width[data-v-06572eb2] {\n    min-width: 100% !important;\n    max-width: 100% !important;\n}\n", ""]);
+exports.push([module.i, "\n.max-min-width-300[data-v-06572eb2] {\n    min-width: 300px;\n    max-width: 300px;\n}\n.full-width[data-v-06572eb2] {\n    width: 98vw !important;\n}\n", ""]);
 
 // exports
 
@@ -65950,8 +65951,7 @@ var render = function() {
                                     _c("img", {
                                       staticStyle: { cursor: "pointer" },
                                       attrs: {
-                                        src: "https://via.placeholder.com/75",
-                                        alt: "Media Aside"
+                                        src: "https://via.placeholder.com/75"
                                       },
                                       on: {
                                         click: function($event) {
@@ -66005,13 +66005,7 @@ var render = function() {
                                     _c("img", {
                                       staticStyle: { cursor: "pointer" },
                                       attrs: {
-                                        src: "https://via.placeholder.com/125",
-                                        alt: "Media Aside"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.fullWidth(index)
-                                        }
+                                        src: "https://via.placeholder.com/125"
                                       }
                                     })
                                   ]
@@ -66027,7 +66021,7 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "div",
-                            { staticClass: "d-flex justify-content-around" },
+                            { staticClass: "d-flex justify-content-between" },
                             [
                               _c("small", [_vm._v(_vm._s(item.author_name))]),
                               _vm._v(" "),
@@ -66057,14 +66051,21 @@ var render = function() {
           )
         }),
         _vm._v(" "),
-        _vm.loadMore
-          ? _c("scroll-loader", {
-              attrs: {
-                "loader-method": _vm.getImagesInfo,
-                "loader-enable": _vm.loadMore
-              }
-            })
-          : _vm._e()
+        _c(
+          "div",
+          { staticClass: "max-min-width-300" },
+          [
+            _vm.loadMore
+              ? _c("scroll-loader", {
+                  attrs: {
+                    "loader-method": _vm.getImagesInfo,
+                    "loader-enable": _vm.loadMore
+                  }
+                })
+              : _vm._e()
+          ],
+          1
+        )
       ],
       2
     )

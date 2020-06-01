@@ -5,7 +5,7 @@
                 <div v-if="selectedBlock!==index" class="max-min-width-300">
                     <b-media>
                         <template v-slot:aside>
-                            <img src="https://via.placeholder.com/75" alt="Media Aside" @click="fullWidth(index)"
+                            <img src="https://via.placeholder.com/75" @click="fullWidth(index)"
                                  style="cursor: pointer">
                         </template>
 
@@ -20,11 +20,10 @@
                 <div v-else class="full-width">
                     <b-media>
                         <template v-slot:aside>
-                            <img src="https://via.placeholder.com/125" alt="Media Aside" @click="fullWidth(index)"
-                                 style="cursor: pointer">
+                            <img src="https://via.placeholder.com/125" style="cursor: pointer">
                         </template>
 
-                        <div class="d-flex justify-content-around">
+                        <div class="d-flex justify-content-between">
                             <small>{{ item.author_name }}</small>
                             <b-button-close class="align-self-start" @click="selectedBlock=''"/>
                         </div>
@@ -34,7 +33,9 @@
                 </div>
             </div>
 
-            <scroll-loader :loader-method="getImagesInfo" v-if="loadMore" :loader-enable="loadMore"/>
+            <div class="max-min-width-300">
+                <scroll-loader :loader-method="getImagesInfo" v-if="loadMore" :loader-enable="loadMore"/>
+            </div>
 
         </div>
     </div>
@@ -81,7 +82,6 @@
     }
 
     .full-width {
-        min-width: 100% !important;
-        max-width: 100% !important;
+        width: 98vw !important;
     }
 </style>
