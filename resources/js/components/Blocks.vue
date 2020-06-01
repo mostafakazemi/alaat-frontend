@@ -7,7 +7,7 @@
             تعداد بلاک‌ها
         </div>
 
-        <div class="mx-auto my-5 py-5 col-12 border" v-for="(block, index) in blocks">
+        <div v-for="(block, index) in blocks">
             <block :key="index" :block-id="block.id"/>
         </div>
 

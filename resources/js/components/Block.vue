@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="d-flex mw-100 mx-1 overflow-auto">
-            <div v-for="(item, index) in items" :key="index" class="border d-flex mx-1" ref="items">
-                <div v-if="selectedBlock!==index" class="max-min-width-200">
+        <div class="mx-auto my-5 overflow-auto border p-1 d-flex w-100">
+            <div v-for="(item, index) in items" :key="index" class="border mx-1" ref="items">
+                <div v-if="selectedBlock!==index" class="max-min-width-300">
                     <b-media>
                         <template v-slot:aside>
                             <img src="https://via.placeholder.com/75" alt="Media Aside" @click="fullWidth(index)"
@@ -33,8 +33,9 @@
                     </b-media>
                 </div>
             </div>
-            33
-            <infinite-loading @infinite="infiniteHandler"/>
+
+            <scroll-loader :loader-method="getImagesInfo" v-if="loadMore" :loader-enable="loadMore"/>
+
         </div>
     </div>
 </template>
@@ -47,22 +48,22 @@
             return {
                 items: [],
                 page: 1,
-                selectedBlock: ''
+                selectedBlock: '',
+                loadMore: true,
             }
         },
         methods: {
-            infiniteHandler($state) {
+            getImagesInfo() {
                 axios.get('/items-api/' + this.blockId, {
                     params: {
-                        page: this.page,
-                    },
+                        page: this.page++,
+                    }
                 }).then(({data}) => {
                     if (data.data.length) {
                         this.page += 1;
                         this.items.push(...data.data);
-                        $state.loaded();
                     } else {
-                        $state.complete();
+                        this.loadMore = false;
                     }
                 });
             },
@@ -74,9 +75,9 @@
 </script>
 
 <style scoped>
-    .max-min-width-200 {
-        min-width: 200px;
-        max-width: 200px;
+    .max-min-width-300 {
+        min-width: 300px;
+        max-width: 300px;
     }
 
     .full-width {

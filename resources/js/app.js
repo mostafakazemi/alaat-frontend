@@ -35,6 +35,11 @@ import vueTopprogress from 'vue-top-progress'
 Vue.use(vueTopprogress)
 
 //////////////////////////////////////////////////////
+import ScrollLoader from 'vue-scroll-loader'
+
+Vue.use(ScrollLoader)
+
+//////////////////////////////////////////////////////
 
 
 Vue.component('block', require('../js/components/Block').default);
