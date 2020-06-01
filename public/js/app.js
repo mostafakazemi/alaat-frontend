@@ -2123,20 +2123,27 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Blocks",
   data: function data() {
     return {
       blockId: parseInt(this.$route.params.blockId),
       blocks: [],
-      page: ''
+      page: {
+        prev: '',
+        next: ''
+      }
     };
   },
   beforeMount: function beforeMount() {
     var _this = this;
 
     axios.get('get-block-page/' + this.blockId).then(function (response) {
-      _this.page = response.data;
+      _this.page.prev = response.data;
+      _this.page.next = _this.page.prev + 1;
     });
   },
   methods: {
@@ -2144,16 +2151,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this2 = this;
 
       this.$refs.topProgress.start();
-      axios.get('blocks-api/' + this.page).then(function (_ref) {
+      axios.get('blocks-api/' + this.page.prev).then(function (_ref) {
         var data = _ref.data;
 
         if (data) {
           var _this2$blocks;
 
-          console.data;
-          _this2.page -= 1;
+          _this2.page.prev -= 1;
 
-          (_this2$blocks = _this2.blocks).push.apply(_this2$blocks, _toConsumableArray(data.data));
+          (_this2$blocks = _this2.blocks).unshift.apply(_this2$blocks, _toConsumableArray(data.data));
 
           $state.loaded();
         } else {
@@ -2167,14 +2173,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this3 = this;
 
       this.$refs.topProgress.start();
-      axios.get('blocks-api/' + this.page).then(function (_ref2) {
+      axios.get('blocks-api/' + this.page.next).then(function (_ref2) {
         var data = _ref2.data;
 
         if (data) {
           var _this3$blocks;
 
-          console.data;
-          _this3.page += 1;
+          _this3.page.next += 1;
 
           (_this3$blocks = _this3.blocks).push.apply(_this3$blocks, _toConsumableArray(data.data));
 
@@ -66150,15 +66155,34 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm._l(_vm.blocks, function(block, index) {
-        return _c("div", { staticClass: "mx-auto my-5 py-5 col-12 border" }, [
-          _vm._v("\n            " + _vm._s(block.id) + "\n            ")
-        ])
-      }),
-      _vm._v(" "),
-      _c("infinite-loading", { on: { infinite: _vm.infiniteHandlerDown } })
+      _c(
+        "div",
+        [
+          this.page.prev > 0
+            ? _c("infinite-loading", {
+                attrs: { direction: "top" },
+                on: { infinite: _vm.infiniteHandlerUp }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._l(_vm.blocks, function(block, index) {
+            return _c(
+              "div",
+              { staticClass: "mx-auto my-5 py-5 col-12 border" },
+              [_c("h1", [_vm._v(_vm._s(block.id))])]
+            )
+          }),
+          _vm._v(" "),
+          this.page.next !== ""
+            ? _c("infinite-loading", {
+                on: { infinite: _vm.infiniteHandlerDown }
+              })
+            : _vm._e()
+        ],
+        2
+      )
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []
